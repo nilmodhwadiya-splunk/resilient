@@ -28,7 +28,7 @@ from phantom.action_result import ActionResult
 from phantom.base_connector import BaseConnector
 from phantom.vault import Vault
 
-from . import co3
+import co3
 
 
 # get string value: return "" if key not in dictionary, otherwise value
@@ -69,7 +69,7 @@ class ResilientConnector(BaseConnector):
         action_id = self.get_action_identifier()
 
         try:
-            if not isinstance(value, str):  # noqa: F821
+            if not isinstance(value, basestring):  # noqa: F821
                 errmsg = "{} failed. {} field is not a string (type={})".format(action_id, key, type(value))
                 self.save_progress(errmsg)
                 return action_result.set_status(phantom.APP_ERROR, errmsg)
@@ -1474,11 +1474,11 @@ if __name__ == '__main__':
     with open(sys.argv[1]) as f:
         in_json = f.read()
         in_json = json.loads(in_json)
-        print((json.dumps(in_json, indent=4)))
+        print(json.dumps(in_json, indent=4))
 
         connector = ResilientConnector()
         connector.print_progress_message = True
         ret_val = connector._handle_action(json.dumps(in_json), None)
-        print((json.dumps(json.loads(ret_val), indent=4)))
+        print(json.dumps(json.loads(ret_val), indent=4))
 
     sys.exit(0)
